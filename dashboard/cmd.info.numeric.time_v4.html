@@ -1,0 +1,41 @@
+<div class="cmd cmd-widget #history#" data-type="info" data-subtype="numeric" data-template="light" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#">
+    <div class="title #hide_name#">
+    <div class="cmdName">#name_display#</div>
+  	</div>
+    <span class="state value" id="chaineComplete#id#"></span>
+  <script>
+    jeedom.cmd.update['#id#'] = function(_options){
+    var valeur = parseFloat(_options.display_value);
+    var heure;
+    var minute;
+    var formatNum;
+    var chaineHeure;
+    var chaineMinute;
+    var chaineComplete;
+
+    // Calcul valeur heure
+    heure = valeur / 100;
+    formatNum = Math.floor(heure);
+    // Formatage de la chaine de caractères heure
+        chaineHeure =  formatNum;
+
+    // Calcul valeur minute
+    minute = valeur - formatNum*100;
+    formatNum = minute.toFixed(0);
+    // Formatage de la chaine de caractères minute
+    if (formatNum >= 10) {
+        chaineMinute =  formatNum;
+        }
+    else {
+                chaineMinute =  "0" + formatNum;
+        }
+
+    // Calcul de la chaine complète
+        chaineComplete = chaineHeure + "h" +chaineMinute;
+        $('#chaineComplete#id#').text(chaineComplete);
+
+        $('.cmd[data-cmd_id=#id#]').attr('title','Date de valeur : '+_options.valueDate+'<br/>Date de collecte : '+_options.collectDate)
+       	}
+        jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
+</script>
+</div>
